@@ -1,5 +1,6 @@
 "use client"
 
+import Image from 'next/image'
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -119,7 +120,7 @@ export function WebhookHistory({ history }: WebhookHistoryProps) {
                         <div className="flex items-center gap-2 mb-2">
                           {item.payload.avatar_url ? (
                             <div className="w-6 h-6 rounded-full overflow-hidden">
-                              <img
+                              <Image
                                 src={item.payload.avatar_url}
                                 alt="Avatar"
                                 className="w-full h-full object-cover"

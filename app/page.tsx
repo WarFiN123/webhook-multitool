@@ -1,5 +1,6 @@
 "use client"
 
+import Image from 'next/image'
 import { useState, useEffect } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -411,7 +412,7 @@ export default function WebhookTool() {
                       <div className="flex items-center gap-2 mb-2">
                         {avatarUrl ? (
                           <div className="w-8 h-8 rounded-full overflow-hidden">
-                            <img
+                            <Image
                               src={avatarUrl}
                               alt="Avatar"
                               className="w-full h-full object-cover"

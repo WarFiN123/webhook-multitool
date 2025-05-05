@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 interface EmbedPreviewProps {
   title?: string
   description?: string
@@ -27,7 +29,7 @@ export function EmbedPreview({
         {author && (
           <div className="flex items-center gap-2 mb-2">
             {authorIcon && (
-              <img
+              <Image
                 src={authorIcon}
                 alt=""
                 className="w-6 h-6 rounded-full"
@@ -44,7 +46,7 @@ export function EmbedPreview({
 
             {image && (
               <div className="mt-3">
-                <img
+                <Image
                   src={image}
                   alt=""
                   className="max-w-full rounded-md max-h-[300px] object-contain"
@@ -55,7 +57,7 @@ export function EmbedPreview({
             {footer && (
               <div className="flex items-center gap-2 mt-3 text-xs text-gray-400">
                 {footerIcon && (
-                  <img
+                  <Image
                     src={footerIcon}
                     alt=""
                     className="w-5 h-5 rounded-full"
@@ -68,7 +70,7 @@ export function EmbedPreview({
 
           {thumbnail && (
             <div className="ml-4">
-              <img
+              <Image
                 src={thumbnail}
                 alt=""
                 className="w-20 h-20 object-cover rounded-md"
