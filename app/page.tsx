@@ -290,7 +290,7 @@ export default function WebhookTool() {
 
                   <div className="flex items-center space-x-2">
                     <Switch id="use-tts" checked={useTTS} onCheckedChange={setUseTTS} />
-                    <Label htmlFor="use-embed">TTS</Label>
+                    <Label htmlFor="use-tts">TTS</Label>
                   </div>
 
                   {useEmbed && (
