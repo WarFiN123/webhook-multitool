@@ -10,7 +10,7 @@
 		"prettier:format": "prettier --write \"**/*.{ts,tsx,js,md,mdx,css,yaml}\""
 	},
 	"dependencies": {
-		"@next/third-parties": "^15.3.1",
+		"@next/third-parties": "^15.3.2",
 		"@radix-ui/react-label": "^2.1.4",
 		"@radix-ui/react-popover": "^1.1.13",
 		"@radix-ui/react-scroll-area": "^1.2.8",
