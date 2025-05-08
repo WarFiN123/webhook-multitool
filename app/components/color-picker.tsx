@@ -38,43 +38,54 @@ export function ColorPicker({ color, onChange }: ColorPickerProps) {
   }, [color])
 
   useEffect(() => {
-    if (isOpen && canvasRef.current) {
-      const canvas = canvasRef.current
-      const ctx = canvas.getContext("2d")
-      if (!ctx) return
-
-      // Draw color gradient
-      const gradientH = ctx.createLinearGradient(0, 0, canvas.width, 0)
-      gradientH.addColorStop(0, "#FF0000")
-      gradientH.addColorStop(1 / 6, "#FFFF00")
-      gradientH.addColorStop(2 / 6, "#00FF00")
-      gradientH.addColorStop(3 / 6, "#00FFFF")
-      gradientH.addColorStop(4 / 6, "#0000FF")
-      gradientH.addColorStop(5 / 6, "#FF00FF")
-      gradientH.addColorStop(1, "#FF0000")
-
-      ctx.fillStyle = gradientH
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-      // Draw white to black gradient overlay
-      const gradientV = ctx.createLinearGradient(0, 0, 0, canvas.height)
-      gradientV.addColorStop(0, "rgba(255, 255, 255, 1)")
-      gradientV.addColorStop(0.5, "rgba(255, 255, 255, 0)")
-      gradientV.addColorStop(0.5, "rgba(0, 0, 0, 0)")
-      gradientV.addColorStop(1, "rgba(0, 0, 0, 1)")
-
-      ctx.fillStyle = gradientV
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+    if (isOpen) {
+      setTimeout(() => {
+        drawColorGradient()
+      }, 50)
     }
   }, [isOpen])
+
+  const drawColorGradient = () => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    // Draw color gradient (horizontal - hue)
+    const gradientH = ctx.createLinearGradient(0, 0, canvas.width, 0)
+    gradientH.addColorStop(0, "#FF0000")
+    gradientH.addColorStop(1 / 6, "#FFFF00")
+    gradientH.addColorStop(2 / 6, "#00FF00")
+    gradientH.addColorStop(3 / 6, "#00FFFF")
+    gradientH.addColorStop(4 / 6, "#0000FF")
+    gradientH.addColorStop(5 / 6, "#FF00FF")
+    gradientH.addColorStop(1, "#FF0000")
+
+    ctx.fillStyle = gradientH
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+    // Draw white to black gradient overlay (vertical - saturation/value)
+    const gradientV = ctx.createLinearGradient(0, 0, 0, canvas.height)
+    gradientV.addColorStop(0, "rgba(255, 255, 255, 1)")
+    gradientV.addColorStop(0.5, "rgba(255, 255, 255, 0)")
+    gradientV.addColorStop(0.5, "rgba(0, 0, 0, 0)")
+    gradientV.addColorStop(1, "rgba(0, 0, 0, 1)")
+
+    ctx.fillStyle = gradientV
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+  }
 
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current
     if (!canvas) return
 
     const rect = canvas.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+    const x = Math.min(Math.max(0, e.clientX - rect.left), canvas.width - 1)
+    const y = Math.min(Math.max(0, e.clientY - rect.top), canvas.height - 1)
 
     const ctx = canvas.getContext("2d")
     if (!ctx) return
@@ -105,13 +116,15 @@ export function ColorPicker({ color, onChange }: ColorPickerProps) {
         </PopoverTrigger>
         <PopoverContent className="w-64">
           <div className="space-y-4">
-            <canvas
-              ref={canvasRef}
-              width={200}
-              height={200}
-              className="w-full h-40 cursor-pointer rounded-md border border-gray-300 bg-white"
-              onClick={handleCanvasClick}
-            />
+            <div className="relative w-full h-40 rounded-md overflow-hidden border border-input">
+              <canvas
+                ref={canvasRef}
+                width={200}
+                height={200}
+                className="absolute inset-0 w-full h-full cursor-crosshair"
+                onClick={handleCanvasClick}
+              />
+            </div>
 
             <div className="grid grid-cols-6 gap-2">
               {discordColors.map((discordColor, index) => (
