@@ -19,7 +19,7 @@ import { Switch } from "@/components/ui/switch";
 import { Check, Copy, Save, Send, Trash2 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 import { ColorPicker } from "@/app/components/color-picker";
 import { WebhookHistory } from "@/app/components/webhook-history";
 import { EmbedPreview } from "@/app/components/embed-preview";
@@ -68,10 +68,8 @@ export default function WebhookTool() {
 
   const saveWebhook = () => {
     if (!webhookUrl || !webhookName) {
-      Toaster({
-        title: "Error",
+      toast.error("Error", {
         description: "Please provide both a name and URL for the webhook",
-        variant: "destructive",
       });
       return;
     }
@@ -83,8 +81,7 @@ export default function WebhookTool() {
     setSavedWebhooks(newWebhooks);
     localStorage.setItem("savedWebhooks", JSON.stringify(newWebhooks));
 
-    Toaster({
-      title: "Webhook saved",
+    toast.success("Webhook saved", {
       description: `Webhook "${webhookName}" has been saved`,
     });
 
@@ -97,8 +94,7 @@ export default function WebhookTool() {
     setSavedWebhooks(newWebhooks);
     localStorage.setItem("savedWebhooks", JSON.stringify(newWebhooks));
 
-    Toaster({
-      title: "Webhook deleted",
+    toast.success("Webhook deleted", {
       description: "The webhook has been removed from your saved list",
     });
   };
@@ -109,10 +105,8 @@ export default function WebhookTool() {
 
   const sendWebhook = async () => {
     if (!webhookUrl) {
-      Toaster({
-        title: "Error",
+      toast.error("Error", {
         description: "Please enter a webhook URL",
-        variant: "destructive",
       });
       return;
     }
@@ -172,17 +166,14 @@ export default function WebhookTool() {
       setHistory(newHistory);
       localStorage.setItem("webhookHistory", JSON.stringify(newHistory));
 
-      Toaster({
-        title: "Webhook sent",
+      toast.success("Webhook sent", {
         description: "Your message has been sent successfully",
       });
     } catch (error) {
       console.error("Error sending webhook:", error);
-      Toaster({
-        title: "Error sending webhook",
+      toast.error("Error sending webhook", {
         description:
           error instanceof Error ? error.message : "Unknown error occurred",
-        variant: "destructive",
       });
     } finally {
       setLoading(false);
@@ -564,8 +555,7 @@ export default function WebhookTool() {
                                   size="icon"
                                   onClick={() => {
                                     navigator.clipboard.writeText(webhook.url);
-                                    Toaster({
-                                      title: "Copied",
+                                    toast.info("Copied", {
                                       description:
                                         "Webhook URL copied to clipboard",
                                     });

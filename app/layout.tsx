@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { Toaster } from "../components/ui/sonner";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -84,12 +85,14 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children} <Toaster position="top-right" />
+      </body>
       <GoogleAnalytics gaId="G-T1PPWT7NT4" />
     </html>
-  )
+  );
 }

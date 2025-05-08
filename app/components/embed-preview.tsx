@@ -1,15 +1,15 @@
-import Image from 'next/image'
+import Image from "next/image";
 
 interface EmbedPreviewProps {
-  title?: string
-  description?: string
-  color?: string
-  author?: string
-  authorIcon?: string
-  footer?: string
-  footerIcon?: string
-  thumbnail?: string
-  image?: string
+  title?: string;
+  description?: string;
+  color?: string;
+  author?: string;
+  authorIcon?: string;
+  footer?: string;
+  footerIcon?: string;
+  thumbnail?: string;
+  image?: string;
 }
 
 export function EmbedPreview({
@@ -24,16 +24,15 @@ export function EmbedPreview({
   image,
 }: EmbedPreviewProps) {
   return (
-    <div className="rounded-md overflow-hidden max-w-[520px]" style={{ borderLeft: `4px solid ${color}` }}>
+    <div
+      className="rounded-md overflow-hidden max-w-[520px]"
+      style={{ borderLeft: `4px solid ${color}` }}
+    >
       <div className="bg-[#2f3136] p-3 rounded-tr-md rounded-br-md">
         {author && (
           <div className="flex items-center gap-2 mb-2">
             {authorIcon && (
-              <Image
-                src={authorIcon}
-                alt=""
-                className="w-6 h-6 rounded-full"
-              />
+              <Image src={authorIcon} alt="" className="w-6 h-6 rounded-full" />
             )}
             <span className="text-sm font-medium">{author}</span>
           </div>
@@ -42,7 +41,11 @@ export function EmbedPreview({
         <div className="flex">
           <div className="flex-1">
             {title && <div className="font-semibold mb-1">{title}</div>}
-            {description && <div className="text-sm text-gray-300 whitespace-pre-wrap">{description}</div>}
+            {description && (
+              <div className="text-sm text-gray-300 whitespace-pre-wrap">
+                {description}
+              </div>
+            )}
 
             {image && (
               <div className="mt-3">
@@ -80,5 +83,5 @@ export function EmbedPreview({
         </div>
       </div>
     </div>
-  )
+  );
 }
