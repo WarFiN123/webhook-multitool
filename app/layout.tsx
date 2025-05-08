@@ -40,6 +40,7 @@ export const metadata: Metadata = {
     "discord webhook",
     "online",
     "customize",
+    "webhook spammer",
     "webhook spammer online",
     "disco with me discord",
     "disco with me webhook",
