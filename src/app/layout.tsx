@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Head from "next/head";
 import { Toaster } from "../components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
@@ -80,7 +81,6 @@ export const metadata: Metadata = {
       "Take control of Discord webhooks online. Text-to-speech, spam messages, view webhook details, and delete unwanted webhooks easily with our multitool.",
     images: ["https://i.postimg.cc/fRh7n7XZ/image.png"],
   },
-  icons: { shortcut: "/favicon.ico" },
 };
 
 export default function RootLayout({
@@ -90,6 +90,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </Head>
       <body>
         {children} <Toaster position="top-right" />
       </body>
