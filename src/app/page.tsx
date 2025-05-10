@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -11,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -597,6 +598,15 @@ export default function WebhookTool() {
           <WebhookHistory history={history} />
         </TabsContent>
       </Tabs>
+      <div className="mt-8 text-right">
+        <Link
+          target="_blank"
+          href="https://github.com/WarFiN123/webhook-multitool"
+          className={buttonVariants({ variant: "outline", size: "icon" })}
+        >
+          <Image src="/github.svg" alt="GitHub" width="25" height="25" />
+        </Link>
+      </div>
     </div>
   );
 }

@@ -44,7 +44,7 @@ export function WebhookHistory({ history }: WebhookHistoryProps) {
   const resendWebhook = async (
     index: number,
     webhookUrl: string,
-    payload: any
+    payload: any,
   ) => {
     setLoading((prev) => ({ ...prev, [index]: true }));
 
@@ -183,7 +183,7 @@ export function WebhookHistory({ history }: WebhookHistoryProps) {
                                   thumbnail={embed.thumbnail?.url}
                                   image={embed.image?.url}
                                 />
-                              )
+                              ),
                             )}
                           </div>
                         )}
