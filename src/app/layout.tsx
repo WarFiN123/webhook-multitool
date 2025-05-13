@@ -46,6 +46,8 @@ export const metadata: Metadata = {
     "disco with me discord",
     "disco with me webhook",
     "disco with me uncover it",
+    "webhook tools",
+    "online webhook tool"
   ],
   openGraph: {
     title: "Discord Webhook Multi-Tool",
