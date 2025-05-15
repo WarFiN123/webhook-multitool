@@ -7,7 +7,8 @@
 		"build": "next build --turbopack",
 		"start": "next start",
 		"lint": "next lint",
-		"prettier:format": "prettier --write \"**/*.{ts,tsx,js,md,mdx,css,yaml}\""
+		"prettier:format": "prettier --write \"**/*.{ts,tsx,js,md,mdx,css,yaml}\"",
+		"knip": "knip"
 	},
 	"dependencies": {
 		"@next/third-parties": "^15.3.2",
@@ -36,6 +37,7 @@
 		"@types/react-dom": "^19.1.5",
 		"eslint": "^9.25.1",
 		"eslint-config-next": "^15.3.2",
+		"knip": "^5.56.0",
 		"postcss": "^8.5.3",
 		"prettier": "3.5.3",
 		"tailwindcss": "^4.1.6",
