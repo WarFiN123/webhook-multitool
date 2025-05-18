@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     siteName: "Uncover it",
     images: [
       {
-        url: "https://i.postimg.cc/fRh7n7XZ/image.png",
+        url: "https://webhook.uncoverit.org/opengraph-image.png",
         width: 1200,
         height: 630,
       },
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     description:
       "Take control of Discord webhooks online. Text-to-speech, spam messages, view webhook details, and delete unwanted webhooks easily with our multitool.",
-    images: ["https://i.postimg.cc/fRh7n7XZ/image.png"],
+    images: ["https://webhook.uncoverit.org/opengraph-image.png"],
   },
 };
 
