@@ -17,18 +17,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Check, Copy, Save, Send, Trash2 } from "lucide-react";
+import { Check, Copy, Save, Send, Trash2, Moon, Sun } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { ColorPicker } from "@/app/components/color-picker";
-import { WebhookHistory } from "@/app/components/webhook-history";
-import { EmbedPreview } from "@/app/components/embed-preview";
+import { ColorPicker } from "@/components/color-picker";
+import { WebhookHistory } from "@/components/webhook-history";
+import { EmbedPreview } from "@/components/embed-preview";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useTheme } from "next-themes";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function WebhookTool() {
   const [webhookUrl, setWebhookUrl] = useState("");
@@ -54,7 +63,6 @@ export default function WebhookTool() {
   const [history, setHistory] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("message");
 
-  // Load saved webhooks from localStorage
   useEffect(() => {
     const saved = localStorage.getItem("savedWebhooks");
     if (saved) {
@@ -67,6 +75,7 @@ export default function WebhookTool() {
     }
   }, []);
 
+  const { setTheme } = useTheme();
   const saveWebhook = () => {
     if (!webhookUrl || !webhookName) {
       toast.error("Error", {
@@ -156,14 +165,13 @@ export default function WebhookTool() {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
 
-      // Add to history
       const historyItem = {
         timestamp: new Date().toISOString(),
         payload,
         webhookUrl,
       };
 
-      const newHistory = [historyItem, ...history].slice(0, 50); // Keep last 50 items
+      const newHistory = [historyItem, ...history].slice(0, 50);
       setHistory(newHistory);
       localStorage.setItem("webhookHistory", JSON.stringify(newHistory));
 
@@ -598,14 +606,34 @@ export default function WebhookTool() {
           <WebhookHistory history={history} />
         </TabsContent>
       </Tabs>
-      <div className="mt-8 text-right">
+      <div className="mt-8 text-right flex justify-end gap-2">
         <Link
           target="_blank"
           href="https://github.com/WarFiN123/webhook-multitool"
           className={buttonVariants({ variant: "outline", size: "icon" })}
         >
-          <Image src="/github.svg" alt="GitHub" width="25" height="25" />
+          <Image src="/github.svg" alt="GitHub" width="25" height="25" className="dark:brightness-100 brightness-0"/>
         </Link>
+                <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon">
+              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setTheme("light")}>
+              Light
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>
+              Dark
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("system")}>
+              System
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

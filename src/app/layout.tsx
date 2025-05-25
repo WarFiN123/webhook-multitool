@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "@/components/theme-provider";
 import Head from "next/head";
 import { Toaster } from "../components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -92,12 +93,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <Head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
       <body>
+         <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
         {children} <Toaster position="top-right" />
+        </ThemeProvider>
       </body>
       <GoogleAnalytics gaId="G-T1PPWT7NT4" />
     </html>

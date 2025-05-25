@@ -13,7 +13,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Trash2, Copy, Send } from "lucide-react";
 import { toast } from "sonner";
-import { EmbedPreview } from "@/app/components/embed-preview";
+import { EmbedPreview } from "@/components/embed-preview";
 
 interface WebhookHistoryProps {
   history: any[];
