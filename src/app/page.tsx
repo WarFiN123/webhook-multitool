@@ -34,10 +34,14 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function WebhookTool() {
   const [webhookUrl, setWebhookUrl] = useState("");
@@ -238,6 +242,44 @@ export default function WebhookTool() {
                     value={webhookUrl}
                     onChange={(e) => setWebhookUrl(e.target.value)}
                   />
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="destructive"
+                          size="icon"
+                          {...(webhookUrl ? {} : { disabled: true })}
+                          onClick={async () => {
+                            if (!webhookUrl) return;
+                            try {
+                              const response = await fetch(webhookUrl, {
+                                method: "DELETE",
+                              });
+                              if (response.ok) {
+                                setWebhookUrl("");
+                                toast.success("Webhook deleted", {
+                                  description: "The webhook has been deleted from Discord.",
+                                });
+                              } else {
+                                toast.error("Failed to delete webhook", {
+                                  description: `Error: ${response.status} ${response.statusText}`,
+                                });
+                              }
+                            } catch (error) {
+                              toast.error("Error deleting webhook", {
+                                description: error instanceof Error ? error.message : "Unknown error occurred",
+                              });
+                            }
+                          }}
+                        >
+                          <Trash2 />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Delete Webhook</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                   {savedWebhooks.length > 0 && (
                     <div className="relative">
                       <Popover>
@@ -612,9 +654,15 @@ export default function WebhookTool() {
           href="https://github.com/WarFiN123/webhook-multitool"
           className={buttonVariants({ variant: "outline", size: "icon" })}
         >
-          <Image src="/github.svg" alt="GitHub" width="25" height="25" className="dark:brightness-100 brightness-0"/>
+          <Image
+            src="/github.svg"
+            alt="GitHub"
+            width="25"
+            height="25"
+            className="dark:brightness-100 brightness-0"
+          />
         </Link>
-                <DropdownMenu>
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
               <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
