@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Check, Copy, Save, Send, Trash2, Moon, Sun } from "lucide-react";
+import { Check, Copy, Save, Send, Trash2, MoonStar, Sun } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
@@ -258,7 +258,8 @@ export default function WebhookTool() {
                               if (response.ok) {
                                 setWebhookUrl("");
                                 toast.success("Webhook deleted", {
-                                  description: "The webhook has been deleted from Discord.",
+                                  description:
+                                    "The webhook has been deleted from Discord.",
                                 });
                               } else {
                                 toast.error("Failed to delete webhook", {
@@ -267,7 +268,10 @@ export default function WebhookTool() {
                               }
                             } catch (error) {
                               toast.error("Error deleting webhook", {
-                                description: error instanceof Error ? error.message : "Unknown error occurred",
+                                description:
+                                  error instanceof Error
+                                    ? error.message
+                                    : "Unknown error occurred",
                               });
                             }
                           }}
@@ -651,6 +655,19 @@ export default function WebhookTool() {
       <div className="mt-8 text-right flex justify-end gap-2">
         <Link
           target="_blank"
+          href="https://discord.com/servers/uncover-it-1298592315694387220"
+          className={buttonVariants({ variant: "outline", size: "icon" })}
+        >
+          <Image
+            src="/discord.svg"
+            alt="GitHub"
+            width="25"
+            height="25"
+            className="dark:brightness-100 brightness-0"
+          />
+        </Link>
+        <Link
+          target="_blank"
           href="https://github.com/WarFiN123/webhook-multitool"
           className={buttonVariants({ variant: "outline", size: "icon" })}
         >
@@ -666,7 +683,7 @@ export default function WebhookTool() {
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
               <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <MoonStar className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>
             </Button>
           </DropdownMenuTrigger>
