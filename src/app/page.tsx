@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
@@ -17,7 +17,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Check, Copy, Save, Send, Trash2, MoonStar, Sun } from "lucide-react";
+import {
+  Check,
+  Copy,
+  Save,
+  Send,
+  Trash2,
+  MoonStar,
+  Sun,
+  CircleStop,
+  Play
+} from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
@@ -66,6 +76,9 @@ export default function WebhookTool() {
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("message");
+  const [isSpamming, setIsSpamming] = useState(false);
+  const [useSpam, setUseSpam] = useState(false);
+  const spamRef = useRef<{ stop: boolean }>({ stop: false });
 
   useEffect(() => {
     const saved = localStorage.getItem("savedWebhooks");
@@ -191,6 +204,61 @@ export default function WebhookTool() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const startSpam = async () => {
+    if (!webhookUrl) {
+      toast.error("Error", {
+        description: "Please enter a webhook URL",
+      });
+      return;
+    }
+    setIsSpamming(true);
+    spamRef.current.stop = false;
+    const payload: any = {};
+    if (username) payload.username = username;
+    if (avatarUrl) payload.avatar_url = avatarUrl;
+    if (content) payload.content = content;
+    if (useEmbed) {
+      const embed: any = {};
+      if (embedTitle) embed.title = embedTitle;
+      if (embedDescription) embed.description = embedDescription;
+      if (embedColor)
+        embed.color = Number.parseInt(embedColor.replace("#", ""), 16);
+      if (embedAuthor) {
+        embed.author = { name: embedAuthor };
+        if (embedAuthorIcon) embed.author.icon_url = embedAuthorIcon;
+      }
+      if (embedFooter) {
+        embed.footer = { text: embedFooter };
+        if (embedFooterIcon) embed.footer.icon_url = embedFooterIcon;
+      }
+      if (embedThumbnail) embed.thumbnail = { url: embedThumbnail };
+      if (embedImage) embed.image = { url: embedImage };
+      payload.embeds = [embed];
+    }
+    const spam = async () => {
+      while (!spamRef.current.stop) {
+        try {
+          await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(useTTS ? { ...payload, tts: true } : payload),
+          });
+        } catch (error) {
+          toast.error("Error sending spam message");
+        }
+      }
+    };
+    spam();
+  };
+
+  const stopSpam = () => {
+    spamRef.current.stop = true;
+    setIsSpamming(false);
+    toast.info("Spam stopped", {
+      description: "Stopped spamming the webhook.",
+    });
   };
 
   const clearForm = () => {
@@ -383,6 +451,15 @@ export default function WebhookTool() {
                     <Label htmlFor="use-tts">TTS</Label>
                   </div>
 
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="spam"
+                      checked={useSpam}
+                      onCheckedChange={setUseSpam}
+                    />
+                    <Label htmlFor="spam">Spam</Label>
+                  </div>
+
                   {useEmbed && (
                     <div className="space-y-4 pt-2">
                       <div className="space-y-2">
@@ -491,10 +568,24 @@ export default function WebhookTool() {
                   <Button variant="outline" onClick={clearForm}>
                     Clear
                   </Button>
-                  <Button onClick={sendWebhook} disabled={loading}>
-                    {loading ? "Sending..." : "Send Webhook"}
-                    <Send className="ml-2 h-4 w-4" />
-                  </Button>
+                  {useSpam ? (
+                    isSpamming ? (
+                      <Button variant="destructive" onClick={stopSpam}>
+                        <CircleStop className="h-4 w-4" />
+                        Stop Spam
+                      </Button>
+                    ) : (
+                      <Button onClick={startSpam} disabled={loading}>
+                        <Play className="h-4 w-4" />
+                        Start Spam
+                      </Button>
+                    )
+                  ) : (
+                    <Button onClick={sendWebhook} disabled={loading}>
+                      <Send className="h-4 w-4" />
+                      {loading ? "Sending..." : "Send Webhook"}
+                    </Button>
+                  )}
                 </CardFooter>
               </Card>
             </div>
