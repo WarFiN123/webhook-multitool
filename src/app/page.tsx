@@ -751,7 +751,7 @@ export default function WebhookTool() {
         >
           <Image
             src="/discord.svg"
-            alt="GitHub"
+            alt="Discord"
             width="25"
             height="25"
             className="dark:brightness-100 brightness-0"
