@@ -42,7 +42,10 @@ export function EmbedPreview({
           <div className="flex-1">
             {title && <div className="font-semibold mb-1">{title}</div>}
             {description && (
-              <div className="text-sm text-gray-300 whitespace-pre-wrap">
+              <div
+                className="text-sm text-gray-300 whitespace-pre-wrap"
+                style={{ wordBreak: "break-word" }}
+              >
                 {description}
               </div>
             )}
