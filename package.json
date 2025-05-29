@@ -42,7 +42,7 @@
 		"knip": "^5.58.1",
 		"postcss": "^8.5.3",
 		"prettier": "3.5.3",
-		"tailwindcss": "^4.1.7",
+		"tailwindcss": "^4.1.8",
 		"typescript": "^5.8.3"
 	}
 }
