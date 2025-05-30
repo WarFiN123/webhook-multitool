@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@next/third-parties':
-        specifier: ^15.3.2
+        specifier: ^15.3.3
         version: 15.3.3(next@15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.1.15
