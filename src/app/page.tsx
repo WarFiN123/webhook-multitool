@@ -245,7 +245,7 @@ export default function WebhookTool() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(useTTS ? { ...payload, tts: true } : payload),
           });
-        } catch (error) {
+        } catch {
           toast.error("Error sending spam message");
         }
       }
