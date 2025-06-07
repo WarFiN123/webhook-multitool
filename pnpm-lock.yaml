@@ -85,8 +85,8 @@ importers:
         specifier: ^15.3.3
         version: 15.3.3(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)
       knip:
-        specifier: ^5.60.1
-        version: 5.60.1(@types/node@22.15.29)(typescript@5.8.3)
+        specifier: ^5.60.2
+        version: 5.60.2(@types/node@22.15.29)(typescript@5.8.3)
       postcss:
         specifier: ^8.5.4
         version: 8.5.4
@@ -1806,8 +1806,8 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  knip@5.60.1:
-    resolution: {integrity: sha512-xuYqS80eZMaUyoq8HfQMHaZDt2HOeTutClZ9Eexq7cBB9yxK6SdyEFussoW9ZKDwn2gnZo6ox6WrvEQQqPTHPg==}
+  knip@5.60.2:
+    resolution: {integrity: sha512-TsYqEsoL3802RmhGL5MN7RLI6/03kocMYx/4BpMmwo3dSwEJxmzV7HqRxMVZr6c1llbd25+MqjgA86bv1IwsPA==}
     engines: {node: '>=18.18.0'}
     hasBin: true
     peerDependencies:
@@ -2456,8 +2456,8 @@ packages:
     peerDependencies:
       zod: ^3.24.4
 
-  zod@3.25.51:
-    resolution: {integrity: sha512-TQSnBldh+XSGL+opiSIq0575wvDPqu09AqWe1F7JhUMKY+M91/aGlK4MhpVNO7MgYfHcVCB1ffwAUTJzllKJqg==}
+  zod@3.25.54:
+    resolution: {integrity: sha512-PJohEPJbvsYNkoNLxzz4UC5xZYMNZpyT0w/jSPnVk2evYb5oFMA+HHLm9fbmvXZnFaTqM56VsSDPpmwopzG6rg==}
 
 snapshots:
 
@@ -4243,7 +4243,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  knip@5.60.1(@types/node@22.15.29)(typescript@5.8.3):
+  knip@5.60.2(@types/node@22.15.29)(typescript@5.8.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@types/node': 22.15.29
@@ -4258,8 +4258,8 @@ snapshots:
       smol-toml: 1.3.4
       strip-json-comments: 5.0.2
       typescript: 5.8.3
-      zod: 3.25.51
-      zod-validation-error: 3.4.1(zod@3.25.51)
+      zod: 3.25.54
+      zod-validation-error: 3.4.1(zod@3.25.54)
 
   language-subtag-registry@0.3.23: {}
 
@@ -4986,8 +4986,8 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod-validation-error@3.4.1(zod@3.25.51):
+  zod-validation-error@3.4.1(zod@3.25.54):
     dependencies:
-      zod: 3.25.51
+      zod: 3.25.54
 
-  zod@3.25.51: {}
+  zod@3.25.54: {}
