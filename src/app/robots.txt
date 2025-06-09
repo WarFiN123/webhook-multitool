@@ -1,5 +1,5 @@
 User-Agent: *
 Allow: /
-Disallow: /private/
+Disallow: /cdn-cgi/
 
 Sitemap: https://www.uncoverit.org/sitemap.xml
