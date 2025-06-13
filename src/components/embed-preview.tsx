@@ -32,7 +32,7 @@ export function EmbedPreview({
         {author && (
           <div className="flex items-center gap-2 mb-2">
             {authorIcon && (
-              <Image src={authorIcon} alt="" className="w-6 h-6 rounded-full" />
+              <Image src={authorIcon} alt="" className="rounded-full" height={6} width={6}/>
             )}
             <span className="text-sm font-medium">{author}</span>
           </div>
@@ -65,7 +65,9 @@ export function EmbedPreview({
                   <Image
                     src={footerIcon}
                     alt=""
-                    className="w-5 h-5 rounded-full"
+                    className="rounded-full"
+                    width={5}
+                    height={5}
                   />
                 )}
                 <span>{footer}</span>
@@ -78,7 +80,9 @@ export function EmbedPreview({
               <Image
                 src={thumbnail}
                 alt=""
-                className="w-20 h-20 object-cover rounded-md"
+                className="object-cover rounded-md"
+                height={20}
+                width={20}
               />
             </div>
           )}

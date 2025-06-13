@@ -26,7 +26,7 @@ import {
   MoonStar,
   Sun,
   CircleStop,
-  Play
+  Play,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -80,6 +80,12 @@ export default function WebhookTool() {
   const [useSpam, setUseSpam] = useState(false);
   const spamRef = useRef<{ stop: boolean }>({ stop: false });
 
+  const isValidWebhook = (url: string) => {
+    const regex =
+      /https:\/\/(?:canary\.)?(?:ptb\.)?discord(?:app)?\.com\/api\/webhooks\//;
+    return regex.test(url);
+  };
+
   useEffect(() => {
     const saved = localStorage.getItem("savedWebhooks");
     if (saved) {
@@ -131,9 +137,9 @@ export default function WebhookTool() {
   };
 
   const sendWebhook = async () => {
-    if (!webhookUrl) {
+    if (!isValidWebhook(webhookUrl)) {
       toast.error("Error", {
-        description: "Please enter a webhook URL",
+        description: "Please enter a valid Discord webhook URL",
       });
       return;
     }
@@ -179,7 +185,8 @@ export default function WebhookTool() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        const error = await response.json();
+        throw new Error(error.message);
       }
 
       const historyItem = {
@@ -196,10 +203,8 @@ export default function WebhookTool() {
         description: "Your message has been sent successfully",
       });
     } catch (error) {
-      console.error("Error sending webhook:", error);
       toast.error("Error sending webhook", {
-        description:
-          error instanceof Error ? error.message : "Unknown error occurred",
+        description: error instanceof Error ? error.message : String(error),
       });
     } finally {
       setLoading(false);
@@ -207,12 +212,13 @@ export default function WebhookTool() {
   };
 
   const startSpam = async () => {
-    if (!webhookUrl) {
+    if (!isValidWebhook(webhookUrl)) {
       toast.error("Error", {
-        description: "Please enter a webhook URL",
+        description: "Please enter a valid Discord webhook URL",
       });
       return;
     }
+
     setIsSpamming(true);
     spamRef.current.stop = false;
     const payload: any = {};
@@ -238,15 +244,31 @@ export default function WebhookTool() {
       payload.embeds = [embed];
     }
     const spam = async () => {
+      toast.info("Spamming started", {
+        description: "Spamming the webhook.",
+      });
       while (!spamRef.current.stop) {
+        let response: Response | undefined;
         try {
-          await fetch(webhookUrl, {
+          response = await fetch(webhookUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(useTTS ? { ...payload, tts: true } : payload),
           });
-        } catch {
-          toast.error("Error sending spam message");
+
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+        } catch (error) {
+          if (!response || response.status !== 429) {
+            toast.error("Error sending webhook", {
+              description:
+                error instanceof Error ? error.message : String(error),
+            });
+            spamRef.current.stop = true;
+            setIsSpamming(false);
+          }
         }
       }
     };
@@ -575,13 +597,19 @@ export default function WebhookTool() {
                         Stop Spam
                       </Button>
                     ) : (
-                      <Button onClick={startSpam} disabled={loading}>
+                      <Button
+                        onClick={startSpam}
+                        disabled={loading || !webhookUrl || !content}
+                      >
                         <Play className="h-4 w-4" />
                         Start Spam
                       </Button>
                     )
                   ) : (
-                    <Button onClick={sendWebhook} disabled={loading}>
+                    <Button
+                      onClick={sendWebhook}
+                      disabled={loading || !webhookUrl || !content}
+                    >
                       <Send className="h-4 w-4" />
                       {loading ? "Sending..." : "Send Webhook"}
                     </Button>
@@ -604,11 +632,7 @@ export default function WebhookTool() {
                       <div className="flex items-center gap-2 mb-2">
                         {avatarUrl ? (
                           <div className="w-8 h-8 rounded-full overflow-hidden">
-                            <Image
-                              src={avatarUrl}
-                              alt="Avatar"
-                              className="w-full h-full object-cover"
-                            />
+                            <Image src={avatarUrl} alt="Avatar" />
                           </div>
                         ) : (
                           <div className="w-8 h-8 rounded-full bg-gray-600"></div>
