@@ -331,6 +331,7 @@ export default function WebhookTool() {
                     placeholder="https://discord.com/api/webhooks/..."
                     value={webhookUrl}
                     onChange={(e) => setWebhookUrl(e.target.value)}
+                    disabled={isSpamming}
                   />
                   <TooltipProvider>
                     <Tooltip>
@@ -419,6 +420,7 @@ export default function WebhookTool() {
                     placeholder="Custom Bot Name"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    disabled={isSpamming}
                   />
                 </div>
                 <div className="space-y-2">
@@ -428,6 +430,7 @@ export default function WebhookTool() {
                     placeholder="https://example.com/avatar.png"
                     value={avatarUrl}
                     onChange={(e) => setAvatarUrl(e.target.value)}
+                    disabled={isSpamming}
                   />
                 </div>
               </div>
@@ -452,6 +455,7 @@ export default function WebhookTool() {
                       className="min-h-[100px]"
                       value={content}
                       onChange={(e) => setContent(e.target.value)}
+                      disabled={isSpamming}
                     />
                   </div>
 
@@ -460,6 +464,7 @@ export default function WebhookTool() {
                       id="use-embed"
                       checked={useEmbed}
                       onCheckedChange={setUseEmbed}
+                      disabled={isSpamming}
                     />
                     <Label htmlFor="use-embed">Include Embed</Label>
                   </div>
@@ -469,6 +474,7 @@ export default function WebhookTool() {
                       id="use-tts"
                       checked={useTTS}
                       onCheckedChange={setUseTTS}
+                      disabled={isSpamming}
                     />
                     <Label htmlFor="use-tts">TTS</Label>
                   </div>
@@ -478,6 +484,7 @@ export default function WebhookTool() {
                       id="spam"
                       checked={useSpam}
                       onCheckedChange={setUseSpam}
+                      disabled={isSpamming}
                     />
                     <Label htmlFor="spam">Spam</Label>
                   </div>
@@ -491,6 +498,7 @@ export default function WebhookTool() {
                           placeholder="Embed Title"
                           value={embedTitle}
                           onChange={(e) => setEmbedTitle(e.target.value)}
+                          disabled={isSpamming}
                         />
                       </div>
 
@@ -504,6 +512,7 @@ export default function WebhookTool() {
                           className="min-h-[100px]"
                           value={embedDescription}
                           onChange={(e) => setEmbedDescription(e.target.value)}
+                          disabled={isSpamming}
                         />
                       </div>
 
@@ -525,6 +534,7 @@ export default function WebhookTool() {
                             placeholder="Author name"
                             value={embedAuthor}
                             onChange={(e) => setEmbedAuthor(e.target.value)}
+                            disabled={isSpamming}
                           />
                         </div>
                         <div className="space-y-2">
@@ -536,6 +546,7 @@ export default function WebhookTool() {
                             placeholder="https://example.com/icon.png"
                             value={embedAuthorIcon}
                             onChange={(e) => setEmbedAuthorIcon(e.target.value)}
+                            disabled={isSpamming}
                           />
                         </div>
                       </div>
@@ -548,6 +559,7 @@ export default function WebhookTool() {
                             placeholder="Footer text"
                             value={embedFooter}
                             onChange={(e) => setEmbedFooter(e.target.value)}
+                            disabled={isSpamming}
                           />
                         </div>
                         <div className="space-y-2">
@@ -559,6 +571,7 @@ export default function WebhookTool() {
                             placeholder="https://example.com/icon.png"
                             value={embedFooterIcon}
                             onChange={(e) => setEmbedFooterIcon(e.target.value)}
+                            disabled={isSpamming}
                           />
                         </div>
                       </div>
@@ -571,6 +584,7 @@ export default function WebhookTool() {
                             placeholder="https://example.com/thumbnail.png"
                             value={embedThumbnail}
                             onChange={(e) => setEmbedThumbnail(e.target.value)}
+                            disabled={isSpamming}
                           />
                         </div>
                         <div className="space-y-2">
@@ -580,6 +594,7 @@ export default function WebhookTool() {
                             placeholder="https://example.com/image.png"
                             value={embedImage}
                             onChange={(e) => setEmbedImage(e.target.value)}
+                            disabled={isSpamming}
                           />
                         </div>
                       </div>
@@ -587,7 +602,7 @@ export default function WebhookTool() {
                   )}
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                  <Button variant="outline" onClick={clearForm}>
+                  <Button variant="outline" onClick={clearForm} disabled={isSpamming}>
                     Clear
                   </Button>
                   {useSpam ? (
