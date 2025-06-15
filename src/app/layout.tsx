@@ -100,6 +100,7 @@ export default function RootLayout({
       <body>
          <ThemeProvider
             attribute="class"
+            disableTransitionOnChange
           >
         {children} <Toaster position="top-right" />
         </ThemeProvider>
