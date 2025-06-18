@@ -18,4 +18,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Similar Projects
 
-- [Python Webhook Multi-tool](https://github.com/infamouskoala/koalahook) by [infamouskoala](https://github.com/infamouskoala)
+- [koalahook](https://github.com/infamouskoala/koalahook) by [infamouskoala](https://github.com/infamouskoala)
