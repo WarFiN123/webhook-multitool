@@ -4,6 +4,8 @@ import Head from "next/head";
 import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
+import AnimatedGridPattern from "@/components/ui/shadcn-io/animated-grid-pattern";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://webhook.uncoverit.org" },
@@ -49,7 +51,7 @@ export const metadata: Metadata = {
     "disco with me uncover it",
     "webhook tools",
     "online webhook tool",
-    "webhook"
+    "webhook",
   ],
   openGraph: {
     title: "Discord Webhook Multi-Tool",
@@ -98,11 +100,18 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
       <body>
-         <ThemeProvider
-            attribute="class"
-            disableTransitionOnChange
-          >
-        {children} <Toaster position="top-right" />
+        <ThemeProvider attribute="class" disableTransitionOnChange>
+          <AnimatedGridPattern
+            numSquares={30}
+            maxOpacity={0.1}
+            duration={3}
+            x={0}
+            y={0}
+            className={cn(
+              "[radial-gradient(white,transparent)] hidden dark:block"
+            )}
+          />
+          {children} <Toaster position="top-right" />
         </ThemeProvider>
       </body>
       <GoogleAnalytics gaId="G-T1PPWT7NT4" />
