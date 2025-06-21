@@ -337,6 +337,7 @@ export default function WebhookTool() {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
+                          aria-label="Delete Webhook"
                           variant="destructive"
                           size="icon"
                           {...(webhookUrl ? {} : { disabled: true })}
