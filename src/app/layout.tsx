@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
-import Head from "next/head";
 import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
-import AnimatedGridPattern from "@/components/ui/shadcn-io/animated-grid-pattern";
-import { cn } from "@/lib/utils";
+import { Grid } from "@/components/ui/grid";
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://webhook.uncoverit.org" },
@@ -96,22 +94,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </Head>
       <body>
         <ThemeProvider attribute="class" disableTransitionOnChange>
-          <AnimatedGridPattern
-            numSquares={30}
-            maxOpacity={0.1}
-            duration={3}
-            x={0}
-            y={0}
-            className={cn(
-              "[radial-gradient(white,transparent)] hidden dark:block"
-            )}
-          />
-          {children} <Toaster position="top-right" />
+          <div
+            style={{ position: "fixed", inset: 0, zIndex: -1 }}
+            aria-hidden="true"
+          >
+            <Grid />
+          </div>
+          {children}
+          <Toaster position="top-right" />
         </ThemeProvider>
       </body>
       <GoogleAnalytics gaId="G-T1PPWT7NT4" />
