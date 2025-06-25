@@ -52,6 +52,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function WebhookTool() {
   const [webhookUrl, setWebhookUrl] = useState("");
@@ -134,6 +135,56 @@ export default function WebhookTool() {
 
   const selectWebhook = (url: string) => {
     setWebhookUrl(url);
+  };
+
+  const editWebhook = async () => {
+    if (!isValidWebhook(webhookUrl)) {
+      toast.error("Error", {
+        description: "Please enter a valid Discord webhook URL",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const payload: any = {};
+      if (username) payload.name = username;
+      if (avatarUrl) {
+        const res = await fetch(avatarUrl);
+        const blob = await res.blob();
+        const reader = new FileReader();
+        const base64 = await new Promise<string>((resolve, reject) => {
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+        payload.avatar = base64;
+      }
+
+      const response = await fetch(webhookUrl, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+
+      toast.success("Webhook edited", {
+        description: "The webhook has been updated successfully",
+      });
+    } catch (error) {
+      toast.error("Error editing webhook", {
+        description: error instanceof Error ? error.message : String(error),
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const sendWebhook = async () => {
@@ -308,8 +359,9 @@ export default function WebhookTool() {
         onValueChange={setActiveTab}
         className="w-full"
       >
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="message">Message</TabsTrigger>
+          <TabsTrigger value="edit">Edit</TabsTrigger>
           <TabsTrigger value="webhooks">Webhooks</TabsTrigger>
           <TabsTrigger value="history">History</TabsTrigger>
         </TabsList>
@@ -401,7 +453,7 @@ export default function WebhookTool() {
                                     deleteWebhook(index);
                                   }}
                                 >
-                                  <Trash2 className="h-4 w-4" />
+                                  <Trash2 className="size-4" />
                                 </Button>
                               </div>
                             ))}
@@ -603,13 +655,17 @@ export default function WebhookTool() {
                   )}
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                  <Button variant="outline" onClick={clearForm} disabled={isSpamming}>
+                  <Button
+                    variant="outline"
+                    onClick={clearForm}
+                    disabled={isSpamming}
+                  >
                     Clear
                   </Button>
                   {useSpam ? (
                     isSpamming ? (
                       <Button variant="destructive" onClick={stopSpam}>
-                        <CircleStop className="h-4 w-4" />
+                        <CircleStop className="size-4" />
                         Stop Spam
                       </Button>
                     ) : (
@@ -617,7 +673,7 @@ export default function WebhookTool() {
                         onClick={startSpam}
                         disabled={loading || !webhookUrl || !content}
                       >
-                        <Play className="h-4 w-4" />
+                        <Play className="size-4" />
                         Start Spam
                       </Button>
                     )
@@ -626,7 +682,7 @@ export default function WebhookTool() {
                       onClick={sendWebhook}
                       disabled={loading || !webhookUrl || !content}
                     >
-                      <Send className="h-4 w-4" />
+                      <Send className="size-4" />
                       {loading ? "Sending..." : "Send Webhook"}
                     </Button>
                   )}
@@ -646,13 +702,22 @@ export default function WebhookTool() {
                   <div className="bg-[#36393f] text-white rounded-md p-4 min-h-[300px]">
                     {username && (
                       <div className="flex items-center gap-2 mb-2">
-                        {avatarUrl ? (
-                          <div className="w-8 h-8 rounded-full overflow-hidden">
-                            <Image src={avatarUrl} alt="Avatar" />
-                          </div>
-                        ) : (
-                          <div className="w-8 h-8 rounded-full bg-gray-600"></div>
-                        )}
+                        <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-600 flex items-center justify-center">
+                          {avatarUrl ? (
+                            <Avatar className="w-8 h-8">
+                              <AvatarImage src={avatarUrl} alt="Avatar" />
+                              <AvatarFallback>
+                                {username
+                                  ? username.charAt(0).toUpperCase()
+                                  : "D"}
+                              </AvatarFallback>
+                            </Avatar>
+                          ) : (
+                            <span className="text-white text-xs font-bold">
+                              {username.charAt(0).toUpperCase()}
+                            </span>
+                          )}
+                        </div>
                         <span className="font-semibold">{username}</span>
                       </div>
                     )}
@@ -677,6 +742,70 @@ export default function WebhookTool() {
               </Card>
             </div>
           </div>
+        </TabsContent>
+
+        <TabsContent value="edit" className="space-y-4 mt-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Edit Webhook</CardTitle>
+              <CardDescription>Modify the webhook's settings</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="webhook-url">Webhook URL</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="webhook-url"
+                    placeholder="https://discord.com/api/webhooks/..."
+                    value={webhookUrl}
+                    onChange={(e) => setWebhookUrl(e.target.value)}
+                    disabled={isSpamming}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="username">Edit Username</Label>
+                  <Input
+                    id="username"
+                    placeholder="Custom Bot Name"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    disabled={isSpamming}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="avatar-url">Avatar URL</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="avatar-url"
+                      placeholder="https://example.com/avatar.png"
+                      value={avatarUrl}
+                      onChange={(e) => setAvatarUrl(e.target.value)}
+                      disabled={isSpamming}
+                    />
+                    <Avatar>
+                      <AvatarImage src={avatarUrl} alt="Avatar" />
+                      <AvatarFallback>
+                        {username ? username.charAt(0).toUpperCase() : "D"}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-end">
+              <Button
+                onClick={editWebhook}
+                disabled={loading || !webhookUrl || !username && !avatarUrl}
+                className="md:w-min w-full"
+              >
+                <Save className="mr-2 size-4" />
+                {loading ? "Saving..." : "Save Changes"}
+              </Button>
+            </CardFooter>
+          </Card>
         </TabsContent>
 
         <TabsContent value="webhooks" className="space-y-4 mt-4">
@@ -710,7 +839,7 @@ export default function WebhookTool() {
               </div>
 
               <Button onClick={saveWebhook} className="w-full">
-                <Save className="mr-2 h-4 w-4" />
+                <Save className="mr-2 size-4" />
                 Save Webhook
               </Button>
 
@@ -747,7 +876,7 @@ export default function WebhookTool() {
                                     });
                                   }}
                                 >
-                                  <Copy className="h-4 w-4" />
+                                  <Copy className="size-4" />
                                 </Button>
                                 <Button
                                   variant="outline"
@@ -757,7 +886,7 @@ export default function WebhookTool() {
                                     setActiveTab("message");
                                   }}
                                 >
-                                  <Check className="h-4 w-4" />
+                                  <Check className="size-4" />
                                 </Button>
                                 <Button
                                   variant="destructive"
