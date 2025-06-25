@@ -748,7 +748,7 @@ export default function WebhookTool() {
           <Card>
             <CardHeader>
               <CardTitle>Edit Webhook</CardTitle>
-              <CardDescription>Modify the webhook's settings</CardDescription>
+              <CardDescription>Modify the webhook&apos;s settings</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
