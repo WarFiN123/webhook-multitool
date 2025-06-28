@@ -54,6 +54,35 @@ import {
 } from "@/components/ui/tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+interface WebhookEmbed {
+  title?: string;
+  description?: string;
+  color?: number;
+  author?: { name: string; icon_url?: string };
+  footer?: { text: string; icon_url?: string };
+  thumbnail?: { url: string };
+  image?: { url: string };
+}
+
+interface WebhookPayload {
+  username?: string;
+  avatar_url?: string;
+  content?: string;
+  embeds?: WebhookEmbed[];
+  tts?: boolean;
+}
+
+interface WebhookHistoryItem {
+  timestamp: string;
+  payload: WebhookPayload;
+  webhookUrl: string;
+}
+
+interface WebhookEditPayload {
+  name?: string;
+  avatar?: string;
+}
+
 export default function WebhookTool() {
   const [webhookUrl, setWebhookUrl] = useState("");
   const [savedWebhooks, setSavedWebhooks] = useState<
@@ -75,7 +104,7 @@ export default function WebhookTool() {
   const [useEmbed, setUseEmbed] = useState(false);
   const [useTTS, setUseTTS] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [history, setHistory] = useState<any[]>([]);
+  const [history, setHistory] = useState<WebhookHistoryItem[]>([]);
   const [activeTab, setActiveTab] = useState("message");
   const [isSpamming, setIsSpamming] = useState(false);
   const [useSpam, setUseSpam] = useState(false);
@@ -148,7 +177,7 @@ export default function WebhookTool() {
     setLoading(true);
 
     try {
-      const payload: any = {};
+      const payload: WebhookEditPayload = {};
       if (username) payload.name = username;
       if (avatarUrl) {
         const res = await fetch(avatarUrl);
@@ -198,14 +227,14 @@ export default function WebhookTool() {
     setLoading(true);
 
     try {
-      const payload: any = {};
+      const payload: WebhookPayload = {};
 
       if (username) payload.username = username;
       if (avatarUrl) payload.avatar_url = avatarUrl;
       if (content) payload.content = content;
 
       if (useEmbed) {
-        const embed: any = {};
+        const embed: WebhookEmbed = {};
         if (embedTitle) embed.title = embedTitle;
         if (embedDescription) embed.description = embedDescription;
         if (embedColor)
@@ -240,7 +269,7 @@ export default function WebhookTool() {
         throw new Error(error.message);
       }
 
-      const historyItem = {
+      const historyItem: WebhookHistoryItem = {
         timestamp: new Date().toISOString(),
         payload,
         webhookUrl,
@@ -272,12 +301,12 @@ export default function WebhookTool() {
 
     setIsSpamming(true);
     spamRef.current.stop = false;
-    const payload: any = {};
+    const payload: WebhookPayload = {};
     if (username) payload.username = username;
     if (avatarUrl) payload.avatar_url = avatarUrl;
     if (content) payload.content = content;
     if (useEmbed) {
-      const embed: any = {};
+      const embed: WebhookEmbed = {};
       if (embedTitle) embed.title = embedTitle;
       if (embedDescription) embed.description = embedDescription;
       if (embedColor)
@@ -748,7 +777,9 @@ export default function WebhookTool() {
           <Card>
             <CardHeader>
               <CardTitle>Edit Webhook</CardTitle>
-              <CardDescription>Modify the webhook&apos;s settings</CardDescription>
+              <CardDescription>
+                Modify the webhook&apos;s settings
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -798,7 +829,7 @@ export default function WebhookTool() {
             <CardFooter className="flex justify-end">
               <Button
                 onClick={editWebhook}
-                disabled={loading || !webhookUrl || !username && !avatarUrl}
+                disabled={loading || !webhookUrl || (!username && !avatarUrl)}
                 className="md:w-min w-full"
               >
                 <Save className="mr-2 size-4" />

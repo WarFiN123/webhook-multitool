@@ -15,8 +15,32 @@ import { Trash2, Copy, Send } from "lucide-react";
 import { toast } from "sonner";
 import { EmbedPreview } from "@/components/embed-preview";
 
+interface WebhookEmbed {
+  title?: string;
+  description?: string;
+  color?: number;
+  author?: { name: string; icon_url?: string };
+  footer?: { text: string; icon_url?: string };
+  thumbnail?: { url: string };
+  image?: { url: string };
+}
+
+interface WebhookPayload {
+  username?: string;
+  avatar_url?: string;
+  content?: string;
+  embeds?: WebhookEmbed[];
+  tts?: boolean;
+}
+
+interface WebhookHistoryItem {
+  timestamp: string;
+  payload: WebhookPayload;
+  webhookUrl: string;
+}
+
 interface WebhookHistoryProps {
-  history: any[];
+  history: WebhookHistoryItem[];
 }
 
 export function WebhookHistory({ history }: WebhookHistoryProps) {
@@ -34,7 +58,7 @@ export function WebhookHistory({ history }: WebhookHistoryProps) {
     }).format(date);
   };
 
-  const copyPayload = (payload: any) => {
+  const copyPayload = (payload: WebhookPayload) => {
     navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
     toast.info("Copied", {
       description: "Webhook payload copied to clipboard",
@@ -44,7 +68,7 @@ export function WebhookHistory({ history }: WebhookHistoryProps) {
   const resendWebhook = async (
     index: number,
     webhookUrl: string,
-    payload: any,
+    payload: WebhookPayload
   ) => {
     setLoading((prev) => ({ ...prev, [index]: true }));
 
@@ -166,14 +190,16 @@ export function WebhookHistory({ history }: WebhookHistoryProps) {
                         item.payload.embeds.length > 0 && (
                           <div className="space-y-2">
                             {item.payload.embeds.map(
-                              (embed: any, embedIndex: number) => (
+                              (embed: WebhookEmbed, embedIndex: number) => (
                                 <EmbedPreview
                                   key={embedIndex}
                                   title={embed.title}
                                   description={embed.description}
                                   color={
                                     embed.color
-                                      ? `#${embed.color.toString(16).padStart(6, "0")}`
+                                      ? `#${embed.color
+                                          .toString(16)
+                                          .padStart(6, "0")}`
                                       : undefined
                                   }
                                   author={embed.author?.name}
@@ -183,7 +209,7 @@ export function WebhookHistory({ history }: WebhookHistoryProps) {
                                   thumbnail={embed.thumbnail?.url}
                                   image={embed.image?.url}
                                 />
-                              ),
+                              )
                             )}
                           </div>
                         )}
