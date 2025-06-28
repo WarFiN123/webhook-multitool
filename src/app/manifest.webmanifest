@@ -1,6 +1,6 @@
 {
   "name": "Webhook Multi-Tool",
-  "short_name": "Webhook",
+  "short_name": "Webhook Tool",
   "description": "Download the Webhook Multi-Tool app to manage Discord webhooks easily.",
   "start_url": "/",
   "display": "standalone",
