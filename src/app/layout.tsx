@@ -4,7 +4,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import { Grid } from "@/components/ui/grid";
-import Head from 'next/head'
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://webhook.uncoverit.org" },
@@ -95,7 +94,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head><meta name="darkreader-lock" /></Head>
       <body>
         <ThemeProvider attribute="class" disableTransitionOnChange>
           <div
