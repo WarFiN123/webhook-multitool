@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     description:
       "Take control of Discord webhooks online. Text-to-speech, spam messages, view webhook details, and delete unwanted webhooks easily with our multitool.",
     url: "https://webhook.uncoverit.org",
-    siteName: "Uncover it",
+    siteName: "Discord Webhook Multi-Tool",
     images: [
       {
         url: "https://webhook.uncoverit.org/og.png",
