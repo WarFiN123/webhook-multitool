@@ -11,7 +11,7 @@ export function Grid() {
           "absolute inset-0",
           "[background-size:40px_40px]",
           "[background-image:linear-gradient(to_right,#ebebeb_1px,transparent_1px),linear-gradient(to_bottom,#ebebeb_1px,transparent_1px)]",
-          "dark:[background-image:linear-gradient(to_right,#0d0f12_1px,transparent_1px),linear-gradient(to_bottom,#0d0f12_1px,transparent_1px)]"
+          "dark:[background-image:linear-gradient(to_right,#111111_1px,transparent_1px),linear-gradient(to_bottom,#111111_1px,transparent_1px)]"
         )}
       />
     </div>
