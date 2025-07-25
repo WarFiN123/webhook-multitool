@@ -13,7 +13,7 @@ Then, install all dependencies:
 pnpm install
 ```
 
-## Running the development server (if you are editting the source code and want to see the changes real-time)
+## Running the development server (if you are editing the source code and want to see the changes real-time)
 
 ```bash
 pnpm run dev
