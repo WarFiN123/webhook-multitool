@@ -943,7 +943,7 @@ export default function WebhookTool() {
           <WebhookHistory history={history} />
         </TabsContent>
       </Tabs>
-      <div className="mt-8 text-right flex justify-end gap-2">
+      <footer className="mt-8 text-right flex justify-end gap-2">
         <Link
           target="_blank"
           href="https://discord.com/servers/uncover-it-1298592315694387220"
@@ -990,7 +990,7 @@ export default function WebhookTool() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
+      </footer>
     </div>
   );
 }
