@@ -870,7 +870,7 @@ export default function WebhookTool() {
               </div>
 
               <Button onClick={saveWebhook} className="w-full">
-                <Save className="mr-2 size-4" />
+                <Save className="size-4" />
                 Save Webhook
               </Button>
 
