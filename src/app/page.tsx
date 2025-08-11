@@ -883,11 +883,11 @@ export default function WebhookTool() {
                     No webhooks saved yet. Add one above.
                   </p>
                 ) : (
-                  <ScrollArea className="h-[300px]">
+                  <ScrollArea className="h-full">
                     <div className="space-y-2">
                       {savedWebhooks.map((webhook, index) => (
                         <Card key={index}>
-                          <CardContent className="p-4">
+                          <CardContent>
                             <div className="flex items-center justify-between">
                               <div>
                                 <h4 className="font-medium">{webhook.name}</h4>
