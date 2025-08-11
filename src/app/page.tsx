@@ -832,7 +832,7 @@ export default function WebhookTool() {
                 disabled={loading || !webhookUrl || (!username && !avatarUrl)}
                 className="md:w-min w-full"
               >
-                <Save className="mr-2 size-4" />
+                <Save className="size-4" />
                 {loading ? "Saving..." : "Save Changes"}
               </Button>
             </CardFooter>
