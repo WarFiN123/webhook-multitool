@@ -96,7 +96,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans">
-        <ThemeProvider attribute="class" disableTransitionOnChange>
+        <ThemeProvider attribute="class" disableTransitionOnChange enableSystem>
           <div
             style={{ position: "fixed", inset: 0, zIndex: -1 }}
             aria-hidden="true"
